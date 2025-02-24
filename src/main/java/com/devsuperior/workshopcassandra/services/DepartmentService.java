@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.devsuperior.workshopcassandra.model.dto.DepartmentDTO;
 import com.devsuperior.workshopcassandra.model.entities.Department;
@@ -30,5 +31,15 @@ public class DepartmentService {
 		return new DepartmentDTO(entity);
 	}
 	
+	public DepartmentDTO insert(DepartmentDTO dto) {
+		Department entity = new Department();
+		entity.setId(UUID.randomUUID());
+		copyDtoToEntity(dto, entity);
+		entity = repository.save(entity);
+		return new DepartmentDTO(entity);
+	}
 	
+	private void copyDtoToEntity(DepartmentDTO dto, Department entity) {
+		entity.setName(dto.getName());
+	}
 }
